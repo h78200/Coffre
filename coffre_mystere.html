@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coffre Mystère</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(to right, #ff9a9e, #fad0c4);
+            color: #333;
+        }
+        .coffre {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            background: linear-gradient(to right, #434343, #000000);
+            border: 5px solid #222;
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        input, button {
+            margin-top: 20px;
+            padding: 12px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background: linear-gradient(to right, #ff416c, #ff4b2b);
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: bold;
+            border-radius: 25px;
+            padding: 12px 20px;
+        }
+        button:hover {
+            background: linear-gradient(to right, #ff4b2b, #ff416c);
+        }
+        .message {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .hidden {
+            display: none;
+        }
+        .countdown {
+            font-size: 18px;
+            font-weight: bold;
+            color: #d32f2f;
+            margin-top: 20px;
+        }
+        #cadeau img {
+            width: 320px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            font-size: 28px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔐 Devine le mot magique pour ouvrir le coffre ! 🔐</h1>
+    <p><strong>Indice 1 :</strong> Je suis un accessoire que tu portes presque tous les jours, mais je ne suis ni une montre ni des boucles d'oreilles.</p>
+    <p><strong>Indice 2 :</strong> Je suis né en France et je suis synonyme d’élégance et de raffinement.</p>
+    <p id="indice3" class="hidden"><strong>Indice 3 :</strong> Mon nom commence par P et se termine par E. Les Parisiennes m’adorent.</p>
+    
+    <div id="countdown" class="countdown"></div>
+    
+    <div class="coffre" id="coffre">🔒 Coffre Fermé</div>
+    <input type="text" id="reponse" placeholder="Entre ta réponse">
+    <button onclick="verifierReponse()">Essayer</button>
+    <p class="message" id="message"></p>
+    
+    <div id="cadeau" class="hidden">
+        <h2>🎁 Surprise pour toi, Lynda ! 🎁</h2>
+        <img src="https://postimg.cc/k2NhWvCk" alt="Sac Polène">
+        <p>Ma très chère Lynda,</p>
+        <p>Je sais combien tu apprécies la maroquinerie et combien tu es une femme d'une élégance rare. Après 10 merveilleuses années passées à tes côtés, je te connais désormais par cœur, et c'est avec tout mon amour que je t'offre ce cadeau. J'espère de tout cœur qu'il saura te plaire.</p>
+        <p>Merci pour ces années incroyables passées ensemble, pour tout ce que tu m'apportes et pour m'avoir aidé à devenir l'homme que je suis aujourd'hui. Tu es ma complice, mon amour, et je ne pourrais jamais assez te dire à quel point tu comptes pour moi.</p>
+        <p>Lynda, je t'aime plus que ma vie. Ton rire, ta gentillesse et ton caractère de chipie font de toi une personne unique, et chaque jour à tes côtés est un véritable cadeau. Je ferais n'importe quoi pour te rendre heureuse.</p>
+        <p>Je t'aime de tout mon cœur pour toute la vie à la folie #IsmaNono</p>
+        <p><strong>PS :</strong> Pour plus d'info sur le sac, viens me voir pour savoir quand il arrive car c'est une précommande.</p>
+    </div>
+    
+    <script>
+        function verifierReponse() {
+            var reponse = document.getElementById("reponse").value.toLowerCase();
+            var coffre = document.getElementById("coffre");
+            var message = document.getElementById("message");
+            var cadeau = document.getElementById("cadeau");
+            
+            if (reponse === "polene") {
+                coffre.textContent = "🔓 Coffre Ouvert !";
+                coffre.style.backgroundColor = "gold";
+                message.textContent = "Bravo ! Voici ta surprise !";
+                cadeau.classList.remove("hidden");
+            } else {
+                message.textContent = "Mauvaise réponse, essaye encore !";
+            }
+        }
+        
+        var dateActuelle = new Date();
+        var dateIndice3 = new Date("2025-03-09T00:00:00");
+        if (dateActuelle >= dateIndice3) {
+            document.getElementById("indice3").classList.remove("hidden");
+        } else {
+            var countdownElement = document.getElementById("countdown");
+            function updateCountdown() {
+                var maintenant = new Date().getTime();
+                var tempsRestant = dateIndice3 - maintenant;
+                if (tempsRestant > 0) {
+                    var jours = Math.floor(tempsRestant / (1000 * 60 * 60 * 24));
+                    var heures = Math.floor((tempsRestant % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((tempsRestant % (1000 * 60 * 60)) / (1000 * 60));
+                    var secondes = Math.floor((tempsRestant % (1000 * 60)) / 1000);
+                    countdownElement.innerHTML = `Un nouvel indice arrive dans : ${jours}j ${heures}h ${minutes}m ${secondes}s`;
+                } else {
+                    countdownElement.classList.add("hidden");
+                    document.getElementById("indice3").classList.remove("hidden");
+                }
+            }
+            setInterval(updateCountdown, 1000);
+        }
+    </script>
+</body>
+</html>
